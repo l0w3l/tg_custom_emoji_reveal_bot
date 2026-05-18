@@ -1,14 +1,15 @@
 <?php
 
+use App\Telegram\Buttons\TurnOnHtmlButton;
+use App\Telegram\Buttons\TurnOnMarkdownButton;
 use App\Telegram\Handlers\CustomEmojiHandler;
-use App\Telegram\Keyboards\Inline\MarkingSwitch\MarkingSwitchKeyboard;
 use Lowel\Telepath\Facades\SpiritBox;
 use Lowel\Telepath\Facades\Telepath;
 
-Telepath::onCommand('start', function () {
+Telepath::onCommand(function () {
     SpiritBox::sendMessage("Hello! \n\nSend message to me and I'll echo it back to you with the correct Markdown|HTML marking.\n\nby @lowel1337");
-});
+}, 'start');
 
-Telepath::onMessage(CustomEmojiHandler::class);
+Telepath::onMessage([CustomEmojiHandler::class, 'handle']);
 
-Telepath::keyboard(MarkingSwitchKeyboard::class);
+Telepath::buttons([TurnOnHtmlButton::class, TurnOnMarkdownButton::class]);
